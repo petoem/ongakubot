@@ -1,0 +1,36 @@
+{
+  "name": "ongakubot",
+  "version": "0.0.2",
+  "private": false,
+  "preferGlobal": "false",
+  "author": "Michael Petö <npm@petoe.me>",
+  "description": "Discord Music Bot",
+  "keywords": [
+    "discord",
+    "music",
+    "bot",
+    "ongaku",
+    "youtube",
+    "soundcloud",
+    "playlist",
+    "js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petoem/ongakubot.git"
+  },
+  "main": "ongakubot.js",
+  "bin": {
+    "ongakubot": "cli.js"
+  },
+  "scripts": {
+    "start": "cli.js"
+  },
+  "dependencies": {
+    "discord.js": "^5.3.2",
+    "request": "^2.69.0",
+    "ytdl-core": "^0.7.9"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/petoem/ongakubot"
+}

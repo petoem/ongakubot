@@ -1,0 +1,18 @@
+{
+  "login":{
+    "email": "BOT_ACCOUNT_EMAIL",
+    "password": "BOT_ACCOUNT_PASSWORD"
+  },
+  "APIKEY":{
+    "YOUTUBE": "API_KEY",
+    "SOUNDCLOUD": "API_KEY"
+  },
+  "command":{
+    "prefix": "/",
+    "name": "ongaku"
+  },
+  "community":{
+    "skipvote": 2
+  },
+  "logging": false
+}
