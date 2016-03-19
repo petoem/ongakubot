@@ -27,9 +27,9 @@
     "start": "cli.js"
   },
   "dependencies": {
-    "discord.js": "^5.3.2",
+    "discord.js": "^6.1.0",
     "request": "^2.69.0",
-    "ytdl-core": "^0.7.9"
+    "ytdl-core": "^0.7.12"
   },
   "license": "MIT",
   "homepage": "https://github.com/petoem/ongakubot"
