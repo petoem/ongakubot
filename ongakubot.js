@@ -70,6 +70,8 @@ function playNextSong() {
             playlisthistory[playlisthistory.length - 1].skipvote = 0;
             playlisthistory[playlisthistory.length - 1].skipvoted = [];
             playlistqueue.splice(0, 1);
+            playingIntent.on('pause', ()=>{ bot.setStatus('online', 'paused.', (error) => { if(error) console.log(error); }); });
+            playingIntent.on('resume', ()=>{ bot.setStatus('online', playlisthistory[playlisthistory.length - 1].title, (error) => { if(error) console.log(error); }); });
             playingIntent.on('end', playNextSong);
           }
         });
@@ -96,6 +98,8 @@ function playNextSong() {
         playlisthistory[playlisthistory.length - 1].skipvote = 0;
         playlisthistory[playlisthistory.length - 1].skipvoted = [];
         playlistqueue.splice(0, 1);
+        playingIntent.on('pause', ()=>{ bot.setStatus('online', 'paused.', (error) => { if(error) console.log(error); }); });
+        playingIntent.on('resume', ()=>{ bot.setStatus('online', playlisthistory[playlisthistory.length - 1].title, (error) => { if(error) console.log(error); }); });
         playingIntent.on('end', playNextSong);
       }
     });
@@ -307,6 +311,12 @@ bot.on('message', (message) => {
         bot.sendMessage(message.channel,'I am no Time Machine :(', { tts: false }, (error, msg) => { if(error) console.log(error); });
       }
     }
+    break;
+    case 'pause':
+    bot.voiceConnection.pause();
+    break;
+    case 'resume':
+    bot.voiceConnection.resume();
     break;
     case 'volume':
     if(!hasPermission(message)){ bot.reply(message, ' you don\'t have permission to use **' + config.command.prefix + config.command.name + ' volume**.', { tts: false }, (error, msg) => { if(error) console.log(error); }); return; }
