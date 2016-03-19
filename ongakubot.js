@@ -32,6 +32,7 @@ bot.login(config.login.email, config.login.password, (error, token) => {
 
 var playlistqueue = [];
 var playlisthistory = [];
+var volume = 0.1;
 
 function playNextSong() {
   if(playlistqueue.length === 0 || bot.voiceConnection === null) { //on playlist end or no voice connection -> write message and stop
@@ -55,7 +56,7 @@ function playNextSong() {
       });
       if(bestformat.audioBitrate !== 0){
         bot.voiceConnection.playFile(bestformat.url, {
-          volume : 0.1
+          volume : volume
         }, function (error, playingIntent){
           if (error){// on error skip the current song
             bot.sendMessage(playlistqueue[0].message.channel, 'Something went wrong :rooster: while trying to play **' + playlistqueue[0].title + '**.', { tts: false }, (error, msg) => { if(error) console.log(error); });
@@ -82,7 +83,7 @@ function playNextSong() {
   }
   if(playlistqueue[0].type === 'soundcloud'){
     bot.voiceConnection.playFile(playlistqueue[0].url, {
-      volume : 0.1
+      volume : volume
     }, function (error, playingIntent){
       if (error){// on error skip the current song
         bot.sendMessage(playlistqueue[0].message.channel, 'Something went wrong :rooster: while trying to play **' + playlistqueue[0].title + '**.', { tts: false }, (error, msg) => { if(error) console.log(error); });
@@ -304,6 +305,20 @@ bot.on('message', (message) => {
         bot.voiceConnection.stopPlaying();
       }else{
         bot.sendMessage(message.channel,'I am no Time Machine :(', { tts: false }, (error, msg) => { if(error) console.log(error); });
+      }
+    }
+    break;
+    case 'volume':
+    if(!hasPermission(message)){ bot.reply(message, ' you don\'t have permission to use **' + config.command.prefix + config.command.name + ' volume**.', { tts: false }, (error, msg) => { if(error) console.log(error); }); return; }
+    if(args.length >= 2){
+      if(!isNaN(args[1]) && (args[1] % 1 === 0)){
+        var prevvol = bot.voiceConnection.getVolume() * 100;
+        var currvol = ((args[1] > 100)? 100 : ((args[1] < 0)? 0 : args[1]));
+        volume = currvol / 100;
+        bot.voiceConnection.setVolume(currvol / 100);
+        bot.reply(message,' updated volume from ' + prevvol + ' to ' + currvol + '.', { tts: false }, (error, msg) => { if(error) console.log(error); });
+      }else{
+        bot.sendMessage(message.channel,':boom: Could not set volume! Invalid number.', { tts: false }, (error, msg) => { if(error) console.log(error); });
       }
     }
     break;
