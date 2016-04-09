@@ -277,14 +277,19 @@ bot.on('message', (message) => {
     break;
     case 'play':
     if(bot.voiceConnection !== null){
-      if(playlistqueue.length === 0) {
-        bot.reply(message, 'Playlist empty, to add something use **' + config.command.prefix + config.command.name + ' <URL>**.', { tts: false }, (error, msg) => { if(error) console.log(error); });
-      }else{
-        if(bot.voiceConnection.playing){
-          bot.reply(message, ' I am already playing music.', { tts: false }, (error, msg) => { if(error) console.log(error); });
+      if(!bot.voiceConnection.paused){
+        if(playlistqueue.length === 0) {
+          bot.reply(message, 'Playlist empty, to add something use **' + config.command.prefix + config.command.name + ' <URL>**.', { tts: false }, (error, msg) => { if(error) console.log(error); });
         }else{
-          playNextSong();
+          if(bot.voiceConnection.playing){
+            bot.reply(message, ' I am already playing music.', { tts: false }, (error, msg) => { if(error) console.log(error); });
+          }else{
+            playNextSong();
+          }
         }
+      }else{
+        bot.voiceConnection.resume();
+        bot.reply(message, ' resuming playlist. :notes:', { tts: false }, (error, msg) => { if(error) console.log(error); });
       }
     }else{
       bot.reply(message, 'Please Type **' + config.command.prefix + config.command.name + ' join** to make the bot Join a Voicechannel.', { tts: false }, (error, msg) => { if(error) console.log(error); });
@@ -313,10 +318,18 @@ bot.on('message', (message) => {
     }
     break;
     case 'pause':
-    bot.voiceConnection.pause();
+    if(bot.voiceConnection.paused){
+      bot.sendMessage(message.channel,'I am already paused, use **' + config.command.prefix + config.command.name + ' resume** to resume playing.', { tts: false }, (error, msg) => { if(error) console.log(error); });
+    }else{
+      bot.voiceConnection.pause();
+    }
     break;
     case 'resume':
-    bot.voiceConnection.resume();
+    if(bot.voiceConnection.paused){
+      bot.voiceConnection.resume();
+    }else{
+      bot.reply(message, ' I am playing music. :confused:', { tts: false }, (error, msg) => { if(error) console.log(error); });
+    }
     break;
     case 'volume':
     if(!hasPermission(message)){ bot.reply(message, ' you don\'t have permission to use **' + config.command.prefix + config.command.name + ' volume**.', { tts: false }, (error, msg) => { if(error) console.log(error); }); return; }
