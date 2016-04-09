@@ -457,7 +457,7 @@ bot.on('message', (message) => {
         }else {
           bot.reply(message, ' you have already voted.', { tts: false }, (error, msg) => { if(error) console.log(error); });
         }
-        if(playlisthistory[playlisthistory.length -1].skipvote === config.community.skipvote){
+        if((playlisthistory[playlisthistory.length -1].skipvote === (bot.voiceConnection.voiceChannel.members.length-1)) || (playlisthistory[playlisthistory.length -1].skipvote === config.community.skipvote)){
           playlisthistory[playlisthistory.length -1].skipvote = 0;
           playlisthistory[playlisthistory.length -1].skipvoted = [];
           bot.voiceConnection.stopPlaying();
