@@ -1,7 +1,8 @@
 {
   "login":{
     "email": "BOT_ACCOUNT_EMAIL",
-    "password": "BOT_ACCOUNT_PASSWORD"
+    "password": "BOT_ACCOUNT_PASSWORD",
+    "withToken": "BOT_ACCOUNT_TOKEN"
   },
   "APIKEY":{
     "YOUTUBE": "API_KEY",
@@ -14,5 +15,12 @@
   "community":{
     "skipvote": 2
   },
-  "logging": false
+  "server":{
+    "wenabled": true,
+    "benabled": true,
+    "whitelist": [],
+    "blacklist": []
+  },
+  "logging": false,
+  "volume": 0.1
 }
